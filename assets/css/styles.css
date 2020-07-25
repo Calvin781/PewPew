@@ -1,0 +1,46 @@
+#gameScreen {
+  border: 1px solid rgb(184, 182, 182);
+  font-family: "Anton", sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  background-color: black;
+}
+
+img {
+  display: none;
+}
+
+#score {
+  color: rgb(76, 214, 12);
+  padding-top: 5%;
+  padding-left: 5%;
+  font-size: 2rem;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+#restart {
+  background-color: rgb(143, 143, 143);
+  color: rgb(0, 0, 0);
+  margin-top: 8%;
+  margin-left: 5%;
+  font-size: 2rem;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+#play {
+  color: rgb(0, 0, 0);
+  position: absolute;
+  font-size: 4rem;
+  margin-top: 10%;
+  background-color: rgb(4, 204, 4);
+}
+* {
+  font-family: "Anton", sans-serif;
+}
