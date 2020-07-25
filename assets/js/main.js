@@ -55,7 +55,7 @@ class Paddle {
       ctx.font = "30px Anton";
       ctx.fillStyle = "black";
       ctx.textAlign = "center";
-      ctx.fillText(`ALL TARGET HITTED IN ${finalTime} SECONDS !`, this.gameWidth / 2, this.gameHeight / 2);
+      ctx.fillText(`You hitted 10 targets IN ${finalTime} SECONDS !`, this.gameWidth / 2, this.gameHeight / 2);
     };
   }
 
@@ -67,7 +67,6 @@ class Paddle {
       this.position.x = this.gameWidth - this.width;
 
   }
-
 
 }
 
@@ -135,13 +134,10 @@ class Bullet {
       this.height
     );
 
-
-
   }
 
   update(deltaTime) {
     this.position.y -= this.speed.y;
-
 
     if (isCollide(target, bullet) && gameStatus !== 2 && score < 10) {
       score++;
@@ -160,8 +156,6 @@ class Bullet {
       gameStatus = 2;
       finalTime = timer;
     }
-
-
   }
 }
 
@@ -200,13 +194,13 @@ let paddle = new Paddle(GAME_WIDTH, GAME_HEIGHT);
 let target = new Target(GAME_WIDTH, GAME_HEIGHT);
 let bullet = "";
 let score = 0;
-new InputHandler(paddle);
 
+new InputHandler(paddle);
 let gameStatus;
+
 let lastTime = 0;
 let timer = 0;
 let finalTime;
-
 
 function gameLoop(timeStamp) {
   let deltaTime = timeStamp - lastTime;
@@ -224,10 +218,8 @@ function gameLoop(timeStamp) {
   }
 
   showScore();
+  showTimer();
 
-  if (gameStatus == 1) {
-    showTimer();
-  }
   requestAnimationFrame(gameLoop);
 }
 
@@ -242,6 +234,7 @@ function startGame() {
   document.getElementById("play").style.display = "none";
   document.getElementById("restart").style.display = "block";
   document.getElementById("timer").style.color = "rgb(76, 214, 12)";
+
 }
 
 function isCollide(a, b) {
