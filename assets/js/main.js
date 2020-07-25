@@ -9,7 +9,7 @@ class Paddle {
       width: 25
     };
 
-    this.maxSpeed = 5;
+    this.maxSpeed = 7.5;
     this.speed = 0;
     this.position = {
       x: gameWidth / 2 - this.width / 2,
@@ -21,6 +21,9 @@ class Paddle {
     if (typeof bullet === "string") {
       bullet = new Bullet(paddle);
     }
+
+    gameStatus = 1;
+
   }
   stop() {
     this.speed = 0;
@@ -41,6 +44,19 @@ class Paddle {
       this.canon.width,
       this.canon.height
     );
+
+    if (gameStatus === 2) {
+
+
+      ctx.rect(0, 0, this.gameWidth, this.gameHeight);
+      ctx.fillStyle = "rgb(76, 214, 12)";
+      ctx.fill();
+
+      ctx.font = "30px Anton";
+      ctx.fillStyle = "black";
+      ctx.textAlign = "center";
+      ctx.fillText(`ALL TARGET HITTED IN ${finalTime} SECONDS !`, this.gameWidth / 2, this.gameHeight / 2);
+    };
   }
 
   update(deltaTime) {
@@ -49,7 +65,10 @@ class Paddle {
     if (this.position.x < 0) this.position.x = 0;
     if (this.position.x + this.width > this.gameWidth)
       this.position.x = this.gameWidth - this.width;
+
   }
+
+
 }
 
 // INPUT
@@ -61,7 +80,9 @@ class InputHandler {
           paddle.moveLeft();
           break;
         case 38:
-          paddle.shoot();
+          if (gameStatus !== 2) {
+            paddle.shoot();
+          }
           break;
         case 32:
           paddle.shoot();
@@ -102,6 +123,7 @@ class Bullet {
     this.height = 16;
 
     this.gameHeight = paddle.gameHeight;
+    this.gameWidth = paddle.gameWidth;
   }
 
   draw(ctx) {
@@ -112,22 +134,34 @@ class Bullet {
       this.width,
       this.height
     );
+
+
+
   }
 
   update(deltaTime) {
     this.position.y -= this.speed.y;
-    if (isCollide(target, bullet)) {
+
+
+    if (isCollide(target, bullet) && gameStatus !== 2 && score < 10) {
       score++;
       console.log(score);
       this.position.y = paddle.position.y;
       bullet = "";
 
-      target.position.x = getRndInteger(0, target.gameWidth - target.width);
+      target.position.x = getRndInteger(20, target.gameWidth - target.width);
       target.position.y =
         target.gameHeight - getRndInteger(target.gameWidth, target.gameHeight);
     }
 
     if (this.gameHeight - this.position.y === this.gameHeight) bullet = "";
+
+    if (score === 10) {
+      gameStatus = 2;
+      finalTime = timer;
+    }
+
+
   }
 }
 
@@ -140,15 +174,16 @@ class Target {
     this.gameWidth = gameWidth - 50;
 
     this.position = {
-      x: getRndInteger(0, gameWidth - this.width),
+      x: getRndInteger(20, gameWidth - this.width),
       y: gameHeight - getRndInteger(gameWidth, gameHeight)
     };
   }
 
   draw(ctx) {
-    ctx.fillStyle = "grey";
+    ctx.fillStyle = "rgb(76, 214, 12)";
     ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
   }
+
 }
 
 function getRndInteger(min, max) {
@@ -167,7 +202,11 @@ let bullet = "";
 let score = 0;
 new InputHandler(paddle);
 
+let gameStatus;
 let lastTime = 0;
+let timer = 0;
+let finalTime;
+
 
 function gameLoop(timeStamp) {
   let deltaTime = timeStamp - lastTime;
@@ -186,6 +225,9 @@ function gameLoop(timeStamp) {
 
   showScore();
 
+  if (gameStatus == 1) {
+    showTimer();
+  }
   requestAnimationFrame(gameLoop);
 }
 
@@ -199,6 +241,7 @@ function startGame() {
   requestAnimationFrame(gameLoop);
   document.getElementById("play").style.display = "none";
   document.getElementById("restart").style.display = "block";
+  document.getElementById("timer").style.color = "rgb(76, 214, 12)";
 }
 
 function isCollide(a, b) {
@@ -213,5 +256,18 @@ function isCollide(a, b) {
 }
 
 function showScore() {
-  document.getElementById("score").innerHTML = `SCORE : ${score}`;
+  document.getElementById("score").innerHTML = `TARGET : ${score}/10`;
+}
+
+function showTimer() {
+  document.getElementById("timer").innerHTML = `TIMER : ${timer} seconds`;
+}
+
+var start = setInterval(myTimer, 1000);
+function myTimer() {
+  timer++;
+}
+
+function stopTimer() {
+  clearInterval(counter);
 }
