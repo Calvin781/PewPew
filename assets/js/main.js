@@ -147,7 +147,7 @@ class Bullet {
 
       target.position.x = getRndInteger(20, target.gameWidth - target.width);
       target.position.y =
-        target.gameHeight - getRndInteger(target.gameWidth, target.gameHeight);
+        getRndInteger(0, target.gameHeight/3);
     }
 
     if (this.gameHeight - this.position.y === this.gameHeight) bullet = "";
@@ -169,7 +169,7 @@ class Target {
 
     this.position = {
       x: getRndInteger(20, gameWidth - this.width),
-      y: gameHeight - getRndInteger(gameWidth, gameHeight)
+      y: getRndInteger(0, gameHeight/3)
     };
   }
 
