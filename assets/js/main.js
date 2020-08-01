@@ -84,7 +84,9 @@ class InputHandler {
           }
           break;
         case 32:
-          paddle.shoot();
+          if (gameStatus !== 2) {
+            paddle.shoot();
+          }
           break;
         case 39:
           paddle.moveRight();
@@ -155,6 +157,7 @@ class Bullet {
     if (score === 10) {
       gameStatus = 2;
       finalTime = timer;
+      stopTimer();
     }
   }
 }
@@ -262,5 +265,5 @@ function myTimer() {
 }
 
 function stopTimer() {
-  clearInterval(counter);
+  clearInterval(start);
 }
