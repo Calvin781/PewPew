@@ -149,7 +149,7 @@ class Bullet {
 
       target.position.x = getRndInteger(20, target.gameWidth - target.width);
       target.position.y =
-        target.gameHeight - getRndInteger(target.gameWidth, target.gameHeight);
+        getRndInteger(0, target.gameHeight/3);
     }
 
     if (this.gameHeight - this.position.y === this.gameHeight) bullet = "";
@@ -172,7 +172,7 @@ class Target {
 
     this.position = {
       x: getRndInteger(20, gameWidth - this.width),
-      y: gameHeight - getRndInteger(gameWidth, gameHeight)
+      y: getRndInteger(0, gameHeight/3)
     };
   }
 
@@ -191,7 +191,7 @@ let canvas = document.getElementById("gameScreen");
 let ctx = canvas.getContext("2d");
 
 const GAME_WIDTH = 800;
-const GAME_HEIGHT = 800;
+const GAME_HEIGHT = 600;
 
 let paddle = new Paddle(GAME_WIDTH, GAME_HEIGHT);
 let target = new Target(GAME_WIDTH, GAME_HEIGHT);
@@ -237,6 +237,7 @@ function startGame() {
   document.getElementById("play").style.display = "none";
   document.getElementById("restart").style.display = "block";
   document.getElementById("timer").style.color = "rgb(76, 214, 12)";
+  startTimer();
 
 }
 
@@ -259,7 +260,9 @@ function showTimer() {
   document.getElementById("timer").innerHTML = `TIMER : ${timer} seconds`;
 }
 
-var start = setInterval(myTimer, 1000);
+function startTimer() {
+  var start = setInterval(myTimer, 1000);
+}
 function myTimer() {
   timer++;
 }
