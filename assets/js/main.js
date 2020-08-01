@@ -204,7 +204,7 @@ let gameStatus;
 let lastTime = 0;
 let timer = 0;
 let finalTime;
-
+let start;
 function gameLoop(timeStamp) {
   let deltaTime = timeStamp - lastTime;
   lastTime = timeStamp;
@@ -261,7 +261,7 @@ function showTimer() {
 }
 
 function startTimer() {
-  var start = setInterval(myTimer, 1000);
+   start = setInterval(myTimer, 1000);
 }
 function myTimer() {
   timer++;
